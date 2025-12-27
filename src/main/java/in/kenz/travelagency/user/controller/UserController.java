@@ -25,7 +25,9 @@ public class UserController {
 
 
 
-    @Operation(summary = "getProfile")
+    @Operation(
+            summary = "getProfile"
+    )
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "User profile fetched"),
             @ApiResponse(responseCode = "404", description = "User not found!"),
@@ -48,7 +50,9 @@ public class UserController {
 
 
 
-    @Operation(summary = "updateProfile")
+    @Operation(
+            summary = "updateProfile"
+    )
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "User profile updated!"),
             @ApiResponse(responseCode = "404", description = "User not found to update!"),
@@ -71,7 +75,13 @@ public class UserController {
         );
     }
 
-    @Operation(summary = "changePassword")
+
+
+
+
+    @Operation(
+            summary = "changePassword"
+    )
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "User password changed"),
             @ApiResponse(responseCode = "404", description = "User not found to update!"),

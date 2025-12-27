@@ -4,6 +4,7 @@ import in.kenz.travelagency.booking.dto.BookingCreateDTO;
 import in.kenz.travelagency.booking.dto.BookingResponseDTO;
 import in.kenz.travelagency.booking.service.BookingService;
 import in.kenz.travelagency.common.dto.CommonResponse;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,8 @@ public class BookingController {
     private final BookingService bookingService;
 
     // TEMP: userId passed manually (Auth integration later)
+    @Operation(
+    )
     @PostMapping("/{userId}")
     public ResponseEntity<CommonResponse<BookingResponseDTO>> create(
             @PathVariable UUID userId,
@@ -33,6 +36,13 @@ public class BookingController {
                 ));
     }
 
+
+
+
+
+
+    @Operation(
+    )
     @GetMapping("/user/{userId}")
     public ResponseEntity<CommonResponse<List<BookingResponseDTO>>> getByUser(
             @PathVariable UUID userId) {
@@ -45,6 +55,14 @@ public class BookingController {
                 ));
     }
 
+
+
+
+
+
+    @Operation(
+            tags = { "Traveller Flow"}
+    )
     @PatchMapping("/{bookingId}/cancel")
     public ResponseEntity<CommonResponse<Void>> cancel(
             @PathVariable UUID bookingId) {

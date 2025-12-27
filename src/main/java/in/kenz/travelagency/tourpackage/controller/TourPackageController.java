@@ -33,6 +33,8 @@ public class TourPackageController {
                 ));
     }
 
+    @Operation(
+    )
     @GetMapping
     public ResponseEntity<CommonResponse<List<TourPackageResponseDTO>>> getAll() {
 
@@ -44,6 +46,8 @@ public class TourPackageController {
                 ));
     }
 
+    @Operation(
+    )
     @GetMapping("/{id}")
     public ResponseEntity<CommonResponse<TourPackageResponseDTO>> getById(
             @PathVariable UUID id) {
@@ -56,7 +60,10 @@ public class TourPackageController {
                 ));
     }
 
-    @Operation(summary = "Updated with REDIS")
+
+    @Operation(
+            summary = "Updated with REDIS"
+    )
     @GetMapping("/location/{locationId}")
     public ResponseEntity<CommonResponse<List<TourPackageResponseDTO>>> getByLocation(
             @PathVariable UUID locationId) {

@@ -3,6 +3,7 @@ package in.kenz.travelagency.location.controller;
 import in.kenz.travelagency.common.dto.CommonResponse;
 import in.kenz.travelagency.location.dto.LocationDTO;
 import in.kenz.travelagency.location.service.LocationService;
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,8 @@ public class LocationController {
 
     private final LocationService locationService;
 
+
+
     @PostMapping
     public ResponseEntity<CommonResponse<LocationDTO>> create(
             @RequestBody LocationDTO dto) {
@@ -31,6 +34,9 @@ public class LocationController {
                 ));
     }
 
+
+    @Operation(
+    )
     @GetMapping("/{id}")
     public ResponseEntity<CommonResponse<LocationDTO>> getById(
             @PathVariable UUID id) {

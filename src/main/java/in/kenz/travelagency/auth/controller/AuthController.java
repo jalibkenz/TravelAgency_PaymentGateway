@@ -2,6 +2,7 @@ package in.kenz.travelagency.auth.controller;
 
 import in.kenz.travelagency.auth.dto.RegisterRequest;
 import in.kenz.travelagency.auth.service.AuthService;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +22,8 @@ public class AuthController {
      */
 
     private final AuthService authService;
-
+    @Operation(
+    )
     @PostMapping("/register")
     public ResponseEntity<Void> register(
             @Valid @RequestBody RegisterRequest request) {
