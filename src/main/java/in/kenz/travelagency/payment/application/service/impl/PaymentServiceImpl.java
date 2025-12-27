@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.UUID;
 
 @Service
@@ -43,16 +44,21 @@ public class PaymentServiceImpl implements PaymentService {
         // 🔒 Ensure CollectionRequest exists
         CollectionRequest collectionRequest = collectionRequestRepository
                 .findByBooking(booking)
-                .orElseGet(() ->
-                        collectionRequestRepository.save(
-                                CollectionRequest.builder()
-                                        .booking(booking)
-                                        .amountDue(booking.getTourPackage().getPrice())
-                                        .currency("INR")
-                                        .active(true)
-                                        .build()
-                        )
-                );
+                .orElseGet(() -> {
+
+                    BigDecimal amountDue = booking.getTourPackage()
+                            .getPrice()
+                            .multiply(BigDecimal.valueOf(booking.getTravelers()));
+
+                    return collectionRequestRepository.save(
+                            CollectionRequest.builder()
+                                    .booking(booking)
+                                    .amountDue(amountDue)
+                                    .currency("INR")
+                                    .active(true)
+                                    .build()
+                    );
+                });
 
         // 🔒 Block retry if merchant may already have money
         boolean blocked = paymentRepository

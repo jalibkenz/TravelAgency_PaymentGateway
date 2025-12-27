@@ -1,5 +1,6 @@
 package in.kenz.travelagency.payment.domain.entity;
 
+
 import in.kenz.travelagency.booking.entity.Booking;
 import in.kenz.travelagency.common.entity.BaseEntity;
 import jakarta.persistence.*;

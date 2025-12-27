@@ -1,7 +1,8 @@
 package in.kenz.travelagency.payment.domain.entity;
 
-import in.kenz.travelagency.payment.domain.enums.PaymentStatus;
+
 import in.kenz.travelagency.common.entity.BaseEntity;
+import in.kenz.travelagency.payment.domain.enums.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.*;
 

@@ -1,5 +1,6 @@
 package in.kenz.travelagency.payment.infrastructure.repository;
 
+
 import in.kenz.travelagency.booking.entity.Booking;
 import in.kenz.travelagency.payment.domain.entity.CollectionRequest;
 import org.springframework.data.jpa.repository.JpaRepository;

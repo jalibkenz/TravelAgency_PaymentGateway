@@ -1,18 +1,36 @@
 package in.kenz.travelagency.payment.application.service;
 
+
+
 import in.kenz.travelagency.payment.domain.entity.Payment;
 
 import java.util.UUID;
 
 public interface PaymentService {
 
-    Payment initiatePayment(UUID bookingId);
+    /* ================================
+       INITIATE PAYMENT
+       ================================ */
 
-    void markPaymentReceived(String gatewayPaymentId);
+    Payment initiatePayment(UUID bookingId, String provider);
 
-    void markPaymentFailedCustomer(String gatewayPaymentId, String reason);
+    /* ================================
+       PAYMENT STATE TRANSITIONS
+       ================================ */
 
-    void markPaymentFailedMerchant(String gatewayPaymentId, String reason);
+    void markPaymentReceived(String provider, String gatewayPaymentId);
 
-    void markPaymentReturned(String gatewayPaymentId);
+    void markPaymentFailedCustomer(
+            String provider,
+            String gatewayPaymentId,
+            String reason
+    );
+
+    void markPaymentFailedMerchant(
+            String provider,
+            String gatewayPaymentId,
+            String reason
+    );
+
+    void markPaymentReturned(String provider, String gatewayPaymentId);
 }
