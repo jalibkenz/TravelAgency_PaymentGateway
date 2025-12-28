@@ -21,14 +21,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtUtil jwtUtil;
     private final UserDetailsService userDetailsService;
 
-    // ✅ Correct place to skip paths
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
         String path = request.getServletPath();
-
         return path.startsWith("/api/auth")
-                || path.startsWith("/v3/api-docs")
                 || path.startsWith("/swagger-ui")
+                || path.startsWith("/v3/api-docs")
                 || path.startsWith("/actuator");
     }
 
@@ -45,16 +43,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
             String token = header.substring(7);
 
-            // ✅ Validate token first
             if (jwtUtil.isTokenValid(token)) {
 
-                String username = jwtUtil.extractUsername(token);
+                String email = jwtUtil.extractUsername(token);
 
-                if (username != null &&
+                if (email != null &&
                         SecurityContextHolder.getContext().getAuthentication() == null) {
 
                     UserDetails userDetails =
-                            userDetailsService.loadUserByUsername(username);
+                            userDetailsService.loadUserByUsername(email);
 
                     UsernamePasswordAuthenticationToken authentication =
                             new UsernamePasswordAuthenticationToken(

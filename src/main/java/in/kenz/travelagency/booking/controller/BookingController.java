@@ -60,9 +60,7 @@ public class BookingController {
 
 
 
-    @Operation(
-            tags = { "Traveller Flow"}
-    )
+
     @PatchMapping("/{bookingId}/cancel")
     public ResponseEntity<CommonResponse<Void>> cancel(
             @PathVariable UUID bookingId) {

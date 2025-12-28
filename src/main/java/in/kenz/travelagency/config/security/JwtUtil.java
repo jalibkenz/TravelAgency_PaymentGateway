@@ -12,17 +12,15 @@ import java.util.Date;
 @Component
 public class JwtUtil {
 
-    // MUST be at least 32 chars for HS256
     private static final String SECRET =
             "travelagency-super-secret-key-32-chars-min";
 
-    private static final long EXPIRATION_MS = 60 * 60 * 1000; // 1 hour
+    private static final long EXPIRATION_MS = 60 * 60 * 1000;
 
     private final SecretKey key =
             Keys.hmacShaKeyFor(SECRET.getBytes(StandardCharsets.UTF_8));
 
     public String generateToken(String username) {
-
         return Jwts.builder()
                 .subject(username)
                 .issuedAt(new Date())
@@ -32,29 +30,23 @@ public class JwtUtil {
     }
 
     public String extractUsername(String token) {
-
-        return Jwts.parser()
-                .verifyWith(key)   // ✅ NOW MATCHES SecretKey
-                .build()
-                .parseSignedClaims(token)
-                .getPayload()
-                .getSubject();
+        return getClaims(token).getSubject();
     }
 
-    private Claims extractAllClaims(String token) {
+    public boolean isTokenValid(String token) {
+        try {
+            getClaims(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private Claims getClaims(String token) {
         return Jwts.parser()
                 .verifyWith(key)
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
-    }
-
-    public boolean isTokenValid(String token) {
-        try {
-            extractAllClaims(token);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
     }
 }

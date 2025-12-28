@@ -1,8 +1,8 @@
 package in.kenz.travelagency.user.entity;
 
 import in.kenz.travelagency.common.entity.Auditable;
+import in.kenz.travelagency.user.domain.enums.UserRole;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
@@ -21,38 +21,31 @@ public class User extends Auditable {
     @Id
     @GeneratedValue
     @UuidGenerator
-    @Column(
-            name = "id",
-            columnDefinition = "BINARY(16)",
-            updatable = false,
-            nullable = false
-    )
+    @Column(columnDefinition = "BINARY(16)")
     private UUID id;
 
-    @NotBlank(message = "Username is required")
-    @Size(min = 3, max = 50)
     @Column(nullable = false, unique = true, length = 50)
     private String username;
 
-    @NotBlank(message = "Password is required")
-    @Size(min = 6)
-    @Column(nullable = false, length = 255)
-    private String password;
-
-    @NotBlank
-    @Email
-    @Size(max = 100)
     @Column(nullable = false, unique = true, length = 100)
     private String email;
 
     @Column(nullable = false)
+    private String password;
+
+    @Column(nullable = false)
     private boolean enabled = true;
+
+    /* =========================
+       ROLES (FIX IS HERE)
+       ========================= */
 
     @ElementCollection(fetch = FetchType.EAGER)
     @CollectionTable(
             name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id")
     )
-    @Column(name = "role", length = 20)
-    private Set<String> roles;
+    @Enumerated(EnumType.STRING)   // ✅ THIS WAS MISSING
+    @Column(name = "role", nullable = false)
+    private Set<UserRole> roles;
 }
