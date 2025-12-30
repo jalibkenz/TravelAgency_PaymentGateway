@@ -19,6 +19,7 @@ public class LocationServiceImpl implements LocationService {
 
     private final LocationRepository locationRepository;
 
+
     @Override
     public LocationDTO create(LocationDTO dto) {
 
@@ -47,6 +48,27 @@ public class LocationServiceImpl implements LocationService {
         dto.setId(location.getId());
         return dto;
     }
+
+
+
+
+
+
+
+    @Override
+    public List<LocationDTO> getAllLocations() {
+
+        return locationRepository
+                .findAll()
+                .stream()
+                .map(this::toDTO)
+                .collect(Collectors.toList());
+    }
+
+
+
+
+
 
     @Override
     public List<LocationDTO> getByType(String type) {
@@ -91,5 +113,16 @@ public class LocationServiceImpl implements LocationService {
                         new IllegalArgumentException("Location not found"));
 
         return toDTO(location);
+    }
+
+    @Override
+    public LocationDTO setById(UUID id) {
+
+        Location location = locationRepository.findById(id)
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Location not found"));
+        LocationDTO dto = new LocationDTO();
+        dto = toDTO(location);
+        return dto;
     }
 }

@@ -1,13 +1,12 @@
 package in.kenz.travelagency.common.exception;
 
 import in.kenz.travelagency.common.dto.CommonResponse;
-import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -75,6 +74,16 @@ public class GlobalExceptionHandler {
                 .body(new CommonResponse<>(false, ex.getMessage()+"|"+request.getDescription(false), null));
     }
 
+
+
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public ResponseEntity<CommonResponse<Void>> handleDataIntegrityViolation(DataIntegrityViolationException ex,  WebRequest request) {
+        return ResponseEntity
+                .status(HttpStatus.CONFLICT)
+                .body(new CommonResponse<>(false,
+                        "Username or email already exists |"+request.getDescription(false), null));
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<CommonResponse<Void>> handleUnexpectedError(Exception ex,  WebRequest request) {
 
@@ -83,4 +92,5 @@ public class GlobalExceptionHandler {
                 .body(new CommonResponse<>(false,
                         "Internal server error"+"|"+request.getDescription(false), null));
     }
+
 }

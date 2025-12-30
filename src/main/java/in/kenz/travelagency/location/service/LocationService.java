@@ -9,9 +9,10 @@ public interface LocationService {
 
     LocationDTO create(LocationDTO dto);
 
+    List<LocationDTO> getAllLocations();
     List<LocationDTO> getByType(String type);
-
     List<LocationDTO> getByParent(UUID parentId);
 
     LocationDTO getById(UUID id);
+    LocationDTO setById(UUID id);
 }

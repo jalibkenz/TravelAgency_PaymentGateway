@@ -1,13 +1,16 @@
 package in.kenz.travelagency.user.service;
 
-import in.kenz.travelagency.user.dto.ChangePasswordDTO;
-import in.kenz.travelagency.user.dto.UserDTO;
+import in.kenz.travelagency.user.dto.ProfileUpdateRequest;
+import in.kenz.travelagency.user.dto.UserSignupRequest;
+import in.kenz.travelagency.user.dto.UserProfileResponse;
+
+import java.util.List;
+import java.util.UUID;
 
 public interface UserService {
-
-    UserDTO findByUsername(String username);
-
-    void updateProfile(String username, UserDTO userDTO);
-
-    void changePassword(String username, ChangePasswordDTO dto);
+        void createUser(UserSignupRequest userSignupRequest);
+        UserProfileResponse fetchProfile(UUID userId);
+        void updateProfile(UUID userId, ProfileUpdateRequest profileUpdateRequest);
+        void deleteProfile(UUID userId);
+        List<UserProfileResponse> fetchAllUsers();
 }

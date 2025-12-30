@@ -2,7 +2,7 @@ package in.kenz.travelagency.booking.entity;
 
 import in.kenz.travelagency.booking.enums.BookingStatus;
 import in.kenz.travelagency.common.entity.BaseEntity;
-import in.kenz.travelagency.payment.domain.entity.Payment;
+
 import in.kenz.travelagency.tourpackage.entity.TourPackage;
 import in.kenz.travelagency.user.entity.User;
 import jakarta.persistence.*;

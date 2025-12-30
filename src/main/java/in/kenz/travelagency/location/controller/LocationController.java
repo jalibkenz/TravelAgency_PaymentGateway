@@ -19,10 +19,11 @@ public class LocationController {
 
     private final LocationService locationService;
 
-
-
+    @Operation(
+            summary = "createLocation"
+    )
     @PostMapping
-    public ResponseEntity<CommonResponse<LocationDTO>> create(
+    public ResponseEntity<CommonResponse<LocationDTO>> createLocation(
             @RequestBody LocationDTO dto) {
 
         return ResponseEntity
@@ -34,8 +35,23 @@ public class LocationController {
                 ));
     }
 
+    @Operation(
+            summary = "getAllLocations"
+    )
+    @GetMapping
+    public ResponseEntity<CommonResponse<List<LocationDTO>>> getAllLocations() {
+
+        return ResponseEntity.ok(
+                new CommonResponse<>(
+                        true,
+                        "Locations fetched",
+                        locationService.getAllLocations()
+                ));
+    }
+
 
     @Operation(
+            summary = "getById"
     )
     @GetMapping("/{id}")
     public ResponseEntity<CommonResponse<LocationDTO>> getById(
@@ -50,6 +66,9 @@ public class LocationController {
         );
     }
 
+    @Operation(
+            summary = "getByType"
+    )
     @GetMapping("/type/{type}")
     public ResponseEntity<CommonResponse<List<LocationDTO>>> getByType(
             @PathVariable String type) {
@@ -62,6 +81,10 @@ public class LocationController {
                 ));
     }
 
+
+    @Operation(
+            summary = "getByParent"
+    )
     @GetMapping("/parent/{parentId}")
     public ResponseEntity<CommonResponse<List<LocationDTO>>> getByParent(
             @PathVariable UUID parentId) {
@@ -73,4 +96,23 @@ public class LocationController {
                         locationService.getByParent(parentId)
                 ));
     }
+
+
+
+    @Operation(
+            summary = "setById"
+    )
+    @PostMapping("/{id}")
+    public ResponseEntity<CommonResponse<LocationDTO>> setById(
+            @PathVariable UUID id) {
+
+        return ResponseEntity.ok(
+                new CommonResponse<>(
+                        true,
+                        "Location found",
+                        locationService.setById(id)
+                )
+        );
+    }
+
 }
