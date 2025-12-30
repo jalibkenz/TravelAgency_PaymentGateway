@@ -6,10 +6,16 @@ import in.kenz.travelagency.auth.dto.SignupFormRequestDTO;
 import in.kenz.travelagency.auth.service.AuthService;
 import in.kenz.travelagency.config.security.JwtUtil;
 import in.kenz.travelagency.user.entity.User;
+import in.kenz.travelagency.user.enums.UserProfileStatus;
+import in.kenz.travelagency.user.enums.UserRole;
 import in.kenz.travelagency.user.repository.UserRepository;
+import in.kenz.travelagency.user.service.UserService;
+import in.kenz.travelagency.user.service.impl.UserServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -19,27 +25,35 @@ public class AuthServiceImpl implements AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
+
+
     @Override
     public void register(SignupFormRequestDTO request) {
 
-        if (userRepository.existsByEmailAndIdNot(request.getEmail(), )) {
+        if (userRepository.existsByEmail(request.getEmail())) {
             throw new RuntimeException("Email already exists");
         }
 
+        if (userRepository.existsByUsername(request.getUsername())) {
+            throw new RuntimeException("Username already exists");
+        }
+
         User user = User.builder()
-                .username(request.getUsername()) // 🔥 THIS WAS MISSING
+                .username(request.getUsername())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .enabled(true)
+                .profileStatus(UserProfileStatus.ACTIVE)
+                .roles(Set.of(UserRole.USER))
                 .build();
 
         userRepository.save(user);
     }
 
+
     @Override
     public LoginResponse login(LoginRequest request) {
 
-        User user = userRepository.findByEmail(request.getEmail())
+        User user = userRepository.findByUsername(request.getUsername())
                 .orElseThrow(() -> new RuntimeException("Invalid credentials"));
 
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
@@ -53,4 +67,5 @@ public class AuthServiceImpl implements AuthService {
                 .tokenType("Bearer")
                 .build();
     }
+
 }

@@ -131,6 +131,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserProfileResponse> fetchAllUsers() {
-        return userRepository.findAllUsers();
+        return userRepository.findAllBy();
     }
 }
